@@ -1,22 +1,20 @@
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
+import 'dart:convert';
+import 'dart:io';
 
-class HttpClient {
-  static const _baseURL = 'https://rel.ink/api';
-  final _httpClient = http.Client();
+const _base_url = 'rel.ink';
+const String error_string = 'Unable to shorten url';
+final httpClient = HttpClient();
 
-  Future<Response> postRequest(
+Future<HttpClientResponse> postRequest(
     String endpoint, {
-    Map<String, String> headers = const {'Accept': 'application/json'},
-    dynamic body,
-  }) async {
-    String url = "$_baseURL/$endpoint";
-    print('Network Request : $url');
-    return await _httpClient.post(
-      url,
-      headers: headers,
-      body: body,
-    );
-  }
-
+      Map<String, String> headers = const {'Accept':'application/json'},
+      Map<String, String> body,
+    }) async {
+  String url = "$_base_url/$endpoint";
+  print('Network Request : $url');
+  HttpClientRequest request = await httpClient.postUrl(Uri.https(_base_url, endpoint));
+  headers.forEach((key,value) => request.headers.add(key, value));
+  request.headers.contentType = ContentType.json;
+  request.add(utf8.encode(json.encode(body)));
+  return await request.close();
 }

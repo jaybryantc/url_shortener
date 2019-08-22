@@ -46,7 +46,7 @@ class _HomeFormState extends State<HomeForm> {
             buttonLabel = 'Shorten';
           });
           _showSnackbar(
-            state.error,
+            state.error.toString(),
             actionLabel: 'OK',
             onActionPressed: () {},
           );
