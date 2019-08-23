@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:url_shortener/models/response.dart';
 import 'package:url_shortener/network/http_client.dart';
 import 'package:url_shortener/repositories/url_repository.dart';
 
@@ -17,11 +18,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is ShortenURLPressed) {
       yield HomeLoading();
       try {
-        String shortenURL = await urlRepository.getShortenURL(event.url);
-        if (shortenURL == error_string) {
-          throw error_string;
+        Response response = await urlRepository.getShortenURL(event.url);
+        if(response.success) {
+          yield HomeSuccessful(response.shortenURL);
+        } else {
+          yield HomeFailure(response.error);
         }
-        yield HomeSuccessful(shortenURL);
       } catch(error) {
         yield HomeFailure(error);
       }

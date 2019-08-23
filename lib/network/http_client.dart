@@ -1,20 +1,32 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
-const _base_url = 'rel.ink';
+const _base_url = 'api-ssl.bitly.com';
+const _token = '7077bbfc821259fae9f34bbc9f7d6047b0493b97';
 const String error_string = 'Unable to shorten url';
-final httpClient = HttpClient();
+final httpClient = http.Client();
 
-Future<HttpClientResponse> postRequest(
-    String endpoint, {
-      Map<String, String> headers = const {'Accept':'application/json'},
-      Map<String, String> body,
-    }) async {
+Future<http.StreamedResponse> postRequest(
+  String endpoint, {
+  Map<String, String> headers,
+  Map<String, String> body,
+}) async {
   String url = "$_base_url/$endpoint";
   print('Network Request : $url');
-  HttpClientRequest request = await httpClient.postUrl(Uri.https(_base_url, endpoint));
-  headers.forEach((key,value) => request.headers.add(key, value));
-  request.headers.contentType = ContentType.json;
-  request.add(utf8.encode(json.encode(body)));
-  return await request.close();
+
+  http.Request request = http.Request("POST",Uri.https(_base_url, endpoint));
+  Map<String, String> requestHeaders = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.acceptHeader: 'application/json',
+    HttpHeaders.authorizationHeader: 'Bearer $_token',
+  };
+  if (headers != null) {
+    requestHeaders.addAll(headers);
+  }
+
+  request.headers.addAll(requestHeaders);
+  request.body = jsonEncode(body);
+
+  return await httpClient.send(request);
 }

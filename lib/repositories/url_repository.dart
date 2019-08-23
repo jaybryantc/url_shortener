@@ -1,21 +1,25 @@
 import 'dart:convert';
 
+import 'package:url_shortener/models/response.dart';
 import 'package:url_shortener/network/http_client.dart';
 
 class URLRepository {
 
-  Future<String> getShortenURL(String longURL) async {
-    String endpoint = '/api/links';
+  Future<Response> getShortenURL(String longURL) async {
+    String endpoint = '/v4/bitlinks';
     var body = Map<String, String>();
-    body['url'] = longURL;
+    body['long_url'] = longURL;
+    var shortenURL;
+    var message = error_string;
     final response = await postRequest(endpoint, body: body);
-    if (response.statusCode == 200) {
-      response.transform(utf8.decoder).listen((data) {
-        return 'https://rel.ink/api/links/${jsonDecode(data)['hashid']}';
-      });
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      shortenURL = jsonDecode(await response.stream.bytesToString())['link'];
+      return Response(success: true, shortenURL: shortenURL);
+    } else if (response != null){
+      message = jsonDecode(await response.stream.bytesToString())['message'];
+      return Response(success: false, shortenURL: null, error: message);
     }
-
-    return error_string;
+    return Response(success: false, shortenURL: null, error: message);
   }
 
 }
