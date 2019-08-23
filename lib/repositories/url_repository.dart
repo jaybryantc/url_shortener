@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:url_shortener/constants.dart';
 import 'package:url_shortener/models/response.dart';
 import 'package:url_shortener/network/http_client.dart';
 
@@ -10,7 +11,7 @@ class URLRepository {
     var body = Map<String, String>();
     body['long_url'] = longURL;
     var shortenURL;
-    var message = error_string;
+    var message = unable_to_shorten_error;
     final response = await postRequest(endpoint, body: body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       shortenURL = jsonDecode(await response.stream.bytesToString())['link'];

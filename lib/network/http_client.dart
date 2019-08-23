@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 
 const _base_url = 'api-ssl.bitly.com';
 const _token = '7077bbfc821259fae9f34bbc9f7d6047b0493b97';
-const String error_string = 'Unable to shorten url';
 final httpClient = http.Client();
 
 Future<http.StreamedResponse> postRequest(

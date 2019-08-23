@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_clipboard_manager/flutter_clipboard_manager.dart';
+import 'package:flutter/services.dart';
+import 'package:url_shortener/constants.dart';
 import 'package:url_shortener/models/response.dart';
 import 'package:url_shortener/repositories/url_repository.dart';
 
@@ -16,6 +17,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is ShortenURLPressed) {
+      if (event.url.trim().isEmpty) {
+        yield HomeFailure(no_url_error);
+      } else {
+        try {
+          Uri.parse(event.url.trim());
+        } catch(error) {
+          yield HomeFailure(invalid_url_error);
+        }
+      }
+
       yield HomeLoading();
       try {
         Response response = await urlRepository.getShortenURL(event.url);
@@ -28,12 +39,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield HomeFailure(error);
       }
     } else if (event is LinkCopied) {
-      bool success = await FlutterClipboardManager.copyToClipBoard(event.shortUrl);
-      if (success) {
-        yield CopyToClipboardSuccessful();
-      } else {
-        yield CopyToClipboardFailure();
-      }
+      Clipboard.setData(ClipboardData(text: event.shortUrl));
+      yield CopyToClipboardSuccessful();
     }
   }
 }

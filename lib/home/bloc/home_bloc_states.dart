@@ -37,10 +37,3 @@ class CopyToClipboardSuccessful extends HomeState {
   @override
   String toString() => 'Copy to clipboard successful';
 }
-
-class CopyToClipboardFailure extends HomeState {
-  CopyToClipboardFailure();
-
-  @override
-  String toString() => 'Copy to clipboard failed';
-}

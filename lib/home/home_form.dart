@@ -48,12 +48,6 @@ class _HomeFormState extends State<HomeForm> {
             actionLabel: 'OK',
             onActionPressed: () {},
           );
-        } else if (state is CopyToClipboardFailure){
-          _showSnackbar(
-            'Unable to copy.',
-            actionLabel: 'OK',
-            onActionPressed: () {},
-          );
         }
       },
       child: SafeArea(
