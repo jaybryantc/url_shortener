@@ -31,15 +31,7 @@ class _HomeFormState extends State<HomeForm> {
           _showSnackbar(
             state.shortenURL,
             actionLabel: 'Copy',
-            onActionPressed: () {
-//              ClipboardManager.copyToClipBoard(state.shortenURL).whenComplete(() {
-//                _showSnackbar(
-//                  'Copied to clipboard.',
-//                  actionLabel: 'Ok',
-//                  onActionPressed: () {},
-//                );
-//              });
-            },
+            onActionPressed: () => BlocProvider.of(context).dispatch(LinkCopied(state.shortenURL)),
           );
         } else if (state is HomeFailure) {
           setState(() {
@@ -47,6 +39,18 @@ class _HomeFormState extends State<HomeForm> {
           });
           _showSnackbar(
             state.error.toString(),
+            actionLabel: 'OK',
+            onActionPressed: () {},
+          );
+        } else if (state is CopyToClipboardSuccessful) {
+          _showSnackbar(
+            'Copied!',
+            actionLabel: 'OK',
+            onActionPressed: () {},
+          );
+        } else if (state is CopyToClipboardFailure){
+          _showSnackbar(
+            'Unable to copy.',
             actionLabel: 'OK',
             onActionPressed: () {},
           );
@@ -130,7 +134,11 @@ class _HomeFormState extends State<HomeForm> {
     );
   }
 
-  void _showSnackbar(String message, {@required String actionLabel, @required VoidCallback onActionPressed}) {
+  void _showSnackbar(
+    String message, {
+    @required String actionLabel,
+    @required VoidCallback onActionPressed,
+  }) {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(
         message,

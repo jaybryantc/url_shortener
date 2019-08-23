@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_clipboard_manager/flutter_clipboard_manager.dart';
 import 'package:url_shortener/models/response.dart';
-import 'package:url_shortener/network/http_client.dart';
 import 'package:url_shortener/repositories/url_repository.dart';
 
 import 'bloc.dart';
@@ -26,6 +26,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       } catch(error) {
         yield HomeFailure(error);
+      }
+    } else if (event is LinkCopied) {
+      bool success = await FlutterClipboardManager.copyToClipBoard(event.shortUrl);
+      if (success) {
+        yield CopyToClipboardSuccessful();
+      } else {
+        yield CopyToClipboardFailure();
       }
     }
   }

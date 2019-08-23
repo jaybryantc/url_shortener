@@ -30,3 +30,17 @@ class HomeFailure extends HomeState {
   @override
   String toString() => 'Home Failure : $error';
 }
+
+class CopyToClipboardSuccessful extends HomeState {
+  CopyToClipboardSuccessful();
+
+  @override
+  String toString() => 'Copy to clipboard successful';
+}
+
+class CopyToClipboardFailure extends HomeState {
+  CopyToClipboardFailure();
+
+  @override
+  String toString() => 'Copy to clipboard failed';
+}

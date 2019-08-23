@@ -12,3 +12,12 @@ class ShortenURLPressed extends HomeEvent {
   @override
   String toString() => 'Shorten URL Button is Pressed : $url';
 }
+
+class LinkCopied extends HomeEvent {
+  LinkCopied(this.shortUrl) : super([shortUrl]);
+
+  final String shortUrl;
+
+  @override
+  String toString() => 'Short URL is copied : $shortUrl';
+}
