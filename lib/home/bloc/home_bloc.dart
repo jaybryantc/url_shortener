@@ -41,6 +41,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else if (event is LinkCopied) {
       Clipboard.setData(ClipboardData(text: event.shortUrl));
       yield CopyToClipboardSuccessful();
+    } else if (event is LinkCopied) {
+      await Clipboard.setData(ClipboardData(text: event.shortUrl));
+      yield CopyToClipboardSuccessful();
     }
   }
 }

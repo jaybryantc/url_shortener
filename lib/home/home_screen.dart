@@ -6,9 +6,11 @@ import 'package:url_shortener/repositories/url_repository.dart';
 import 'home.dart';
 
 class HomeScreen extends StatelessWidget {
+  static var homeScaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: homeScaffoldKey,
       body: BlocProvider<HomeBloc>(
         child: HomeForm(),
         builder: (context) => HomeBloc(URLRepository()),
