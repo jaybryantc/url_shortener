@@ -1,16 +1,23 @@
+![](extras/url_shortener_demo.gif)
+
 # url_shortener
 
-A new Flutter project.
+url_shortener is a demo Flutter project for discovering the wonders of BLoC pattern in handling mobile application 
+state. This app aims to shorten long URLs with ordinary mobile UI controls and by leveraging [Bitly](https://app.bitly.com/)'s API.
 
-## Getting Started
+## Key Features
+- [Bitly](https://app.bitly.com/)'s URL Shortener API
+- BLoC State Management
 
-This project is a starting point for a Flutter application.
+## Installation
+- Clone repository by running `git clone https://github.com/jaybryantc/url_shortener.git`
+- After cloning, execute `flutter packages get` at the project's root directory to retrieve dependencies
+- Run `flutter run` to test the app
 
-A few resources to get you started if this is your first Flutter project:
+## References
+- [bloc](https://pub.dev/packages/bloc)
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc)
+- [equatable](https://pub.dev/packages/equatable)
+- [http](https://pub.dev/packages/http)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+### For more Flutter stuffs. Visit [Flutter](https://flutter.dev/)'s website.
